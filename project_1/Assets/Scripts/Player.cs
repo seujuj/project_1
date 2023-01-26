@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetInput();
         Jump();   
     }
 
@@ -30,11 +31,9 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        Debug.Log("justJump");
         if (jDown)
         {
-            Debug.Log("asdfijh");
-            //rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
+            rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
         }
     }
 }
