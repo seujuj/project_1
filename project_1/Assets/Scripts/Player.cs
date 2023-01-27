@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     bool jDown;
+    bool isJump;
 
     Rigidbody rigid;
     // Start is called before the first frame update
@@ -31,9 +32,17 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (jDown)
+        if (jDown && !isJump)
         {
             rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
+            isJump = true;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Floor")
+        {
+            isJump = false;
         }
     }
 }
