@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     bool jDown;
     bool isJump;
+    public int JumpForce = 15;
 
     Rigidbody rigid;
     // Start is called before the first frame update
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
     {
         if (jDown && !isJump)
         {
-            rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
+            rigid.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             isJump = true;
         }
     }
