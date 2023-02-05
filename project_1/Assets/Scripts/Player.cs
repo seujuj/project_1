@@ -5,8 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     bool jDown;
+    bool MoveRight;
     bool isJump;
+    bool isMove;
     public int JumpForce = 15;
+    public int MoveForce = 15;
 
     Rigidbody rigid;
     // Start is called before the first frame update
@@ -23,12 +26,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         GetInput();
-        Jump();   
+        Jump();
+        MoveHorizontal();
     }
 
     void GetInput()
     {
         jDown = Input.GetButtonDown("Jump");
+        MoveRight = Input.GetButtonDown("Horizontal");
     }
 
     void Jump()
@@ -39,6 +44,17 @@ public class Player : MonoBehaviour
             isJump = true;
         }
     }
+
+    void MoveHorizontal()
+    {
+        if (MoveRight && !isJump)
+        {
+            Debug.Log("move horizontal");
+            //rigid.AddForce(Vector3.right * MoveForce, ForceMode.Impulse);
+            //isJump = true;
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Floor")
