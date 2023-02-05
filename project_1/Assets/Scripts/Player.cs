@@ -6,11 +6,13 @@ public class Player : MonoBehaviour
 {
     bool jDown;
     bool MoveRight;
+    bool MoveLeft;
     bool isJump;
     bool isMove;
     public int JumpForce = 15;
-    public int MoveForce = 15;
-
+    public float MoveForce = 3;
+    public float MoveJumpForce = 1;
+    public float friction = 0.5f;
     Rigidbody rigid;
     // Start is called before the first frame update
     private void Awake()
@@ -33,7 +35,8 @@ public class Player : MonoBehaviour
     void GetInput()
     {
         jDown = Input.GetButtonDown("Jump");
-        MoveRight = Input.GetButtonDown("Horizontal");
+        MoveRight = Input.GetKeyDown("right");
+        MoveLeft = Input.GetKeyDown("left");
     }
 
     void Jump()
@@ -47,12 +50,29 @@ public class Player : MonoBehaviour
 
     void MoveHorizontal()
     {
-        if (MoveRight && !isJump)
-        {
-            Debug.Log("move horizontal");
-            //rigid.AddForce(Vector3.right * MoveForce, ForceMode.Impulse);
-            //isJump = true;
-        }
+        
+            if (MoveRight && !isJump && !isMove)
+            {
+                if (transform.position.x <= 3f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(MoveForce, MoveJumpForce, 0),  /*Time.deltaTime **/ friction);
+                //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
+                //isMove= true;
+                    
+                }
+                
+            }
+            if (MoveLeft && !isJump && !isMove)
+            {
+                if (transform.position.x >= -3f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(-MoveForce, MoveJumpForce, 0), /*Time.deltaTime **/ friction);
+                //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
+                //isMove = true;
+                }
+            }
+         
+
     }
 
     void OnCollisionEnter(Collision collision)

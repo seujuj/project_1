@@ -895,6 +895,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JumpForce: 13
+  MoveForce: 3
+  MoveJumpForce: 0.5
+  friction: 0.2
 --- !u!54 &96233505
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -909,7 +912,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 90
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!1 &142470502
 GameObject:
