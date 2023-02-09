@@ -14,15 +14,14 @@ public class Player : MonoBehaviour
     public float MoveJumpForce = 1;
     public float friction = 0.5f;
     Rigidbody rigid;
+    Animator anim;
     // Start is called before the first frame update
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
     }
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -44,6 +43,8 @@ public class Player : MonoBehaviour
         if (jDown && !isJump)
         {
             rigid.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            anim.SetBool("isJump", true);
+            anim.SetTrigger("doJump");
             isJump = true;
         }
     }
