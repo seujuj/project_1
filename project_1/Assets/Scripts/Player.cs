@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public float friction = 0.5f;
     Rigidbody rigid;
     Animator anim;
+    public GameObject targetposition;
+    Vector3 vel = Vector3.zero;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -40,7 +42,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (jDown && !isJump)
+        if (jDown && !isJump && !isMove)
         {
             rigid.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             anim.SetBool("isJump", true);
@@ -52,14 +54,16 @@ public class Player : MonoBehaviour
     void MoveHorizontal()
     {
         
-            if (MoveRight && !isJump && !isMove)
+            if (MoveRight && !isJump && !isMove )
             {
                 if (transform.position.x <= 3f)
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(MoveForce, MoveJumpForce, 0),  /*Time.deltaTime **/ friction);
+                rigid.AddForce(new Vector3(MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
+                //transform.position = Vector3.SmoothDamp(transform.position, targetposition.transform.position , ref vel, friction);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
-                //isMove= true;
-                    
+                anim.SetTrigger("moveRight");
+                isMove = true;
+                Invoke("DoMove", 1f);
                 }
                 
             }
@@ -67,13 +71,18 @@ public class Player : MonoBehaviour
             {
                 if (transform.position.x >= -3f)
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(-MoveForce, MoveJumpForce, 0), /*Time.deltaTime **/ friction);
+                rigid.AddForce(new Vector3(-MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
-                //isMove = true;
-                }
+                anim.SetTrigger("moveLeft");
+                isMove = true;
+                Invoke("DoMove", 1f);
             }
-         
+            }
+    }
 
+    void DoMove()
+    {
+        isMove = false;
     }
 
     void OnCollisionEnter(Collision collision)
