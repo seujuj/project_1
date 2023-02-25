@@ -6,6 +6,8 @@ public class Background : MonoBehaviour
 {
     public GameObject _stageA;
     public GameObject _stageB;
+    public GameObject _player;
+    //public GUIContent _deadui;
     //public GameObject _stageC;
     public float speed;
     //public int startIndex;
@@ -18,24 +20,25 @@ public class Background : MonoBehaviour
 
     void Start()
     {
-         
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         //Vector3 curPos = _stageA.transform.position;
         Vector3 nextPos = Vector3.back * speed * Time.deltaTime;
         //if (_stageA != null || _stageB != null)//&& _stageC != null)
         //{
-            _stageA.transform.position += nextPos;
-            _stageB.transform.position += nextPos;
+        _stageA.transform.position += nextPos;
+        _stageB.transform.position += nextPos;
         //_stageC.transform.position += nextPos;
         //}
-        
+
         if (_stageA != null && _stageA.transform.position.z < 0 && isFar == false)
         {
-            
+
             GameObject stageloop1 = Instantiate(_stageB, new Vector3(0, 0, viewDist), transform.rotation);
 
 
@@ -46,7 +49,7 @@ public class Background : MonoBehaviour
             isFar = true;
         }
 
-        if(_stageA != null && _stageA.transform.position.z < -viewDist && isFar == true)
+        if (_stageA != null && _stageA.transform.position.z < -viewDist && isFar == true)
         {
             GameObject stageloop2 = Instantiate(_stageA, new Vector3(0, 0, viewDist), transform.rotation);
             if (_stageA != null)
@@ -54,13 +57,19 @@ public class Background : MonoBehaviour
             _stageA = stageloop2;
             isFar = false;
         }
-    }
 
-    //void OnTriggerEnter(Collider collider, GameObject _disObj)
+        //if(_player.)
+
+    }
+    //GameObject _enemy = GameObject.FindGameObjectWithTag("deadZone");
+    
+    //void OnTriggerEnter(Collider collider, GameObject _player)
     //{
-    //    if(collider.gameObject.name == "deadZone")
+    //    if (collider.gameObject.tag == "deadZone")
     //    {
-    //        Destroy(_disObj);
+    //        Destroy(_player);
+    //        speed = 0;
+    //        //_deadui.
     //    }
     //}
 
