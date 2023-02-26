@@ -9,8 +9,10 @@ public class Player : MonoBehaviour
     bool MoveLeft;
     bool isJump;
     bool isMove;
+    bool isDead;
     public int JumpForce = 15;
     public float MoveForce = 3;
+    public float MoveDelay = 1;
     public float MoveJumpForce = 1;
     public float friction = 0.5f;
     Rigidbody rigid;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        isDead = false;
     }
     
 
@@ -36,8 +39,8 @@ public class Player : MonoBehaviour
     void GetInput()
     {
         jDown = Input.GetButtonDown("Jump");
-        MoveRight = Input.GetKeyDown("right");
-        MoveLeft = Input.GetKeyDown("left");
+        MoveRight = Input.GetKey("right");
+        MoveLeft = Input.GetKey("left");
     }
 
     void Jump()
@@ -58,12 +61,13 @@ public class Player : MonoBehaviour
             {
                 if (transform.position.x <= 3f)
                 {
-                rigid.AddForce(new Vector3(MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
-                //transform.position = Vector3.SmoothDamp(transform.position, targetposition.transform.position , ref vel, friction);
+                //rigid.AddForce(new Vector3(MoveForce, MoveJumpForce, 0), ForceMode.Impulse); //ÈûÁÖ´Â ¹æ½Ä
+                //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(3,0,0) , ref vel, friction);
+                transform.Translate(Vector3.right * MoveForce * Time.deltaTime);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
-                anim.SetTrigger("moveRight");
-                isMove = true;
-                Invoke("DoMove", 1f);
+                //anim.SetTrigger("moveRight");
+                //isMove = true;
+                //Invoke("DoMove", MoveDelay);
                 }
                 
             }
@@ -71,11 +75,13 @@ public class Player : MonoBehaviour
             {
                 if (transform.position.x >= -3f)
                 {
-                rigid.AddForce(new Vector3(-MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
+                //rigid.AddForce(new Vector3(-MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
-                anim.SetTrigger("moveLeft");
-                isMove = true;
-                Invoke("DoMove", 1f);
+                //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(-3, 0, 0), ref vel, friction);
+                transform.Translate(Vector3.left * MoveForce * Time.deltaTime);
+                //anim.SetTrigger("moveLeft");
+                //isMove = true;
+                //Invoke("DoMove", MoveDelay);
             }
             }
     }
@@ -86,10 +92,35 @@ public class Player : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
+    
     {
-        if(collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Floor")
         {
             isJump = false;
+            //Debug.Log("landing");
+
+        }
+
+
+
+    }
+
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "deadZone")
+        {
+            Debug.Log("dead!");
+            isDead = true;
+            isJump = true;
+            Background _speed = GameObject.Find("Main").GetComponent<Background>();
+            _speed.speed = 0;
+            anim.SetTrigger("die");
+
+
         }
     }
+    
+
+    
 }
