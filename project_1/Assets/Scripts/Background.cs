@@ -7,6 +7,7 @@ public class Background : MonoBehaviour
     public GameObject _stageA;
     public GameObject _stageB;
     public GameObject _player;
+    public GameObject _deadUI;
     //public GUIContent _deadui;
     //public GameObject _stageC;
     public float speed;
@@ -20,7 +21,7 @@ public class Background : MonoBehaviour
 
     void Start()
     {
-
+        _deadUI.active = false;
     }
 
     // Update is called once per frame
@@ -58,9 +59,22 @@ public class Background : MonoBehaviour
             isFar = false;
         }
 
+        if (speed == 0)
+        {
+            _deadUI.active = true;
+        }
+
         //if(_player.)
 
     }
+
+    public void DoRevive()
+    {
+        _deadUI.active = false;
+        speed = 10;
+
+    }
+
     //GameObject _enemy = GameObject.FindGameObjectWithTag("deadZone");
     
     //void OnTriggerEnter(Collider collider, GameObject _player)

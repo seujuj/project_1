@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         isDead = false;
+        
     }
     
 
@@ -116,7 +117,7 @@ public class Player : MonoBehaviour
             Background _speed = GameObject.Find("Main").GetComponent<Background>();
             _speed.speed = 0;
             anim.SetTrigger("die");
-
+            
 
         }
     }

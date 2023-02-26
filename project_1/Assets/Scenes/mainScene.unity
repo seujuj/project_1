@@ -2502,7 +2502,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 667086857}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1434579440}
+        m_TargetAssemblyTypeName: Background, Assembly-CSharp
+        m_MethodName: DoRevive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &667086857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5082,6 +5094,7 @@ MonoBehaviour:
   _stageA: {fileID: 3244003338296413443}
   _stageB: {fileID: 3244003338296413443}
   _player: {fileID: 96233499}
+  _deadUI: {fileID: 1526143809}
   speed: 10
   viewDist: 100
 --- !u!4 &1434579441
