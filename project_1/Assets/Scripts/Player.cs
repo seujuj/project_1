@@ -5,10 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     bool jDown;
+    bool aDown;
     bool MoveRight;
     bool MoveLeft;
     bool isJump;
     bool isMove;
+    bool isAttack;
     bool isDead;
     public int JumpForce = 15;
     public float MoveForce = 3;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
     Animator anim;
     public GameObject targetposition;
+    public GameObject Sword;
     Vector3 vel = Vector3.zero;
     // Start is called before the first frame update
     private void Awake()
@@ -35,10 +38,12 @@ public class Player : MonoBehaviour
         GetInput();
         Jump();
         MoveHorizontal();
+        DoAttack();
     }
 
     void GetInput()
     {
+        aDown = Input.GetButtonDown("Attack");
         jDown = Input.GetButtonDown("Jump");
         MoveRight = Input.GetKey("right");
         MoveLeft = Input.GetKey("left");
@@ -83,13 +88,35 @@ public class Player : MonoBehaviour
                 //anim.SetTrigger("moveLeft");
                 //isMove = true;
                 //Invoke("DoMove", MoveDelay);
+                }
             }
-            }
+
+            
     }
 
     void DoMove()
     {
         isMove = false;
+    }
+
+    void AttackOut()
+    {
+        isAttack = false;
+        Sword.active = false;
+    }
+
+    void DoAttack()
+    {
+        if (aDown && !isAttack && !isJump)
+        {
+            Debug.Log("attack ani~~");
+            isAttack = true;
+            Sword.active = true;
+            //anim.SetBool("isAttack", true);
+            anim.SetTrigger("doAttack");
+            Invoke("AttackOut", 0.3f);
+        }
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -117,7 +144,7 @@ public class Player : MonoBehaviour
             Background _speed = GameObject.Find("Main").GetComponent<Background>();
             _speed.speed = 0;
             anim.SetTrigger("die");
-            
+
 
         }
     }
