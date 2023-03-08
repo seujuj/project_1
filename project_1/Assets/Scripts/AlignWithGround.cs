@@ -701,8 +701,8 @@ public class AlignWithGround : MonoBehaviour {
         //}
 
 
-        string st = "";
-    string stArea = "Empty List";
+        //string st = "";
+    //string stArea = "Empty List";
     Vector2 scrollPos;
     bool exact;
 

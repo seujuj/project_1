@@ -15,4 +15,16 @@ public class Enemy : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Sword")
+        {
+            Debug.Log("kill!");
+            Destroy(gameObject, 0f);
+
+        }
+    }
+
+
 }

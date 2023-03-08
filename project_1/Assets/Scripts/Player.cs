@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     bool isJump;
     bool isMove;
     bool isAttack;
-    bool isDead;
+    public bool isDead;
     public int JumpForce = 15;
     public float MoveForce = 3;
     public float MoveDelay = 1;
@@ -43,10 +43,14 @@ public class Player : MonoBehaviour
 
     void GetInput()
     {
-        aDown = Input.GetButtonDown("Attack");
-        jDown = Input.GetButtonDown("Jump");
-        MoveRight = Input.GetKey("right");
-        MoveLeft = Input.GetKey("left");
+        if(isDead == false)
+        {
+            aDown = Input.GetButtonDown("Attack");
+            jDown = Input.GetButtonDown("Jump");
+            MoveRight = Input.GetKey("right");
+            MoveLeft = Input.GetKey("left");
+        }
+        
     }
 
     void Jump()
@@ -102,7 +106,7 @@ public class Player : MonoBehaviour
     void AttackOut()
     {
         isAttack = false;
-        Sword.active = false;
+        Sword.SetActive(false);
     }
 
     void DoAttack()
@@ -111,7 +115,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("attack ani~~");
             isAttack = true;
-            Sword.active = true;
+            Sword.SetActive(true);
             //anim.SetBool("isAttack", true);
             anim.SetTrigger("doAttack");
             Invoke("AttackOut", 0.3f);
@@ -129,8 +133,6 @@ public class Player : MonoBehaviour
 
         }
 
-
-
     }
 
 
@@ -138,11 +140,11 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "deadZone")
         {
-            Debug.Log("dead!");
-            isDead = true;
-            isJump = true;
-            Background _speed = GameObject.Find("Main").GetComponent<Background>();
-            _speed.speed = 0;
+            
+            //isDead = true;
+            //isJump = true;
+            //Background _speed = GameObject.Find("Main").GetComponent<Background>();
+            //_speed.speed = 0;
             anim.SetTrigger("die");
 
 

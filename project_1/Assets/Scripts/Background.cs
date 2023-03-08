@@ -21,7 +21,7 @@ public class Background : MonoBehaviour
 
     void Start()
     {
-        _deadUI.active = false;
+        _deadUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,18 +59,32 @@ public class Background : MonoBehaviour
             isFar = false;
         }
 
-        if (speed == 0)
-        {
-            _deadUI.active = true;
-        }
+        
 
-        //if(_player.)
+        
 
     }
 
+
+    void GameOver()
+    {
+        Player player = GameObject.Find("PC").GetComponent<Player>();
+        
+        if(player.isDead == true)
+        {
+            Debug.Log("dead!");
+            speed = 0;
+            //_deadUI.active = true;  //아직 유아이까지는.
+        }
+        
+    }    
+
+
     public void DoRevive()
     {
-        _deadUI.active = false;
+        _deadUI.SetActive(false);
+        Player player = GameObject.Find("PC").GetComponent<Player>();
+        player.isDead = false;
         speed = 10;
 
     }
