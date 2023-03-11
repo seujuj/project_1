@@ -55,19 +55,21 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (jDown && !isJump && !isMove)
+        if (jDown && !isJump )
         {
             rigid.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             anim.SetBool("isJump", true);
             anim.SetTrigger("doJump");
             isJump = true;
+            //isMove = false;
         }
+        
     }
 
     void MoveHorizontal()
     {
         
-            if (MoveRight && !isJump && !isMove )
+            if (MoveRight && /*!isJump &&*/ isMove )
             {
                 if (transform.position.x <= 3f)
                 {
@@ -76,12 +78,12 @@ public class Player : MonoBehaviour
                 transform.Translate(Vector3.right * MoveForce * Time.deltaTime);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
                 //anim.SetTrigger("moveRight");
-                //isMove = true;
+                isMove = true;
                 //Invoke("DoMove", MoveDelay);
                 }
                 
             }
-            if (MoveLeft && !isJump && !isMove)
+            if (MoveLeft && /*!isJump &&*/ isMove)
             {
                 if (transform.position.x >= -3f)
                 {
@@ -90,7 +92,7 @@ public class Player : MonoBehaviour
                 //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(-3, 0, 0), ref vel, friction);
                 transform.Translate(Vector3.left * MoveForce * Time.deltaTime);
                 //anim.SetTrigger("moveLeft");
-                //isMove = true;
+                isMove = true;
                 //Invoke("DoMove", MoveDelay);
                 }
             }
@@ -129,6 +131,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             isJump = false;
+            isMove = true;
             //Debug.Log("landing");
 
         }
