@@ -11,12 +11,15 @@ public class Player : MonoBehaviour
     bool isJump;
     bool isMove;
     bool isAttack;
+    bool isCrossRoad;
     public bool isDead;
     public int JumpForce = 15;
     public float MoveForce = 3;
     public float MoveDelay = 1;
     public float MoveJumpForce = 1;
-    public float friction = 0.5f;
+    public float MoveForwardSpeed = 10;
+    public float TurnSpeed = 50;
+    //public float friction = 0.5f;  
     Rigidbody rigid;
     Animator anim;
     public GameObject targetposition;
@@ -28,6 +31,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         isDead = false;
+        isCrossRoad = false;
         
     }
     
@@ -35,6 +39,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!isDead)
+        {
+            transform.Translate(Vector3.forward * MoveForwardSpeed * Time.deltaTime, Space.Self);
+        }
         GetInput();
         Jump();
         MoveHorizontal();
@@ -69,32 +77,42 @@ public class Player : MonoBehaviour
     void MoveHorizontal()
     {
         
-            if (MoveRight && /*!isJump &&*/ isMove )
+            if (MoveRight && /*!isJump &&*/ isMove && !isCrossRoad)
             {
-                if (transform.position.x <= 3f)
-                {
                 //rigid.AddForce(new Vector3(MoveForce, MoveJumpForce, 0), ForceMode.Impulse); //ÈûÁÖ´Â ¹æ½Ä
                 //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(3,0,0) , ref vel, friction);
-                transform.Translate(Vector3.right * MoveForce * Time.deltaTime);
+                transform.Translate(Vector3.right * MoveForce * Time.deltaTime,Space.Self);
+
+                //if (isCrossRoad)
+                //{
+                //    transform.Rotate(new Vector3(0, 90f, 0) * 30 * Time.deltaTime);
+                //    Invoke("DoMove()", 1f);
+                //}
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
                 //anim.SetTrigger("moveRight");
                 isMove = true;
                 //Invoke("DoMove", MoveDelay);
-                }
+                
                 
             }
-            if (MoveLeft && /*!isJump &&*/ isMove)
+            if (MoveLeft && /*!isJump &&*/ isMove && !isCrossRoad)
             {
-                if (transform.position.x >= -3f)
-                {
+                
                 //rigid.AddForce(new Vector3(-MoveForce, MoveJumpForce, 0), ForceMode.Impulse);
                 //rigid.AddForce(Vector3.right * MoveForce, ForceMode.);
                 //transform.position = Vector3.SmoothDamp(transform.position, new Vector3(-3, 0, 0), ref vel, friction);
-                transform.Translate(Vector3.left * MoveForce * Time.deltaTime);
+                transform.Translate(Vector3.left * MoveForce * Time.deltaTime, Space.Self);
+
+                //if(isCrossRoad)
+                //{
+                //    transform.Rotate(new Vector3(0, -90f, 0) * 30 * Time.deltaTime);
+                //    Invoke("DoMove()", 1f);
+                //}
+                    
                 //anim.SetTrigger("moveLeft");
                 isMove = true;
                 //Invoke("DoMove", MoveDelay);
-                }
+                
             }
 
             
@@ -102,7 +120,8 @@ public class Player : MonoBehaviour
 
     void DoMove()
     {
-        isMove = false;
+        isMove = true;
+        isCrossRoad = false;
     }
 
     void AttackOut()
@@ -150,6 +169,47 @@ public class Player : MonoBehaviour
             //_speed.speed = 0;
             anim.SetTrigger("die");
 
+
+        }
+        if (collision.gameObject.tag == "TurnRightZone")
+        {
+            Debug.Log("turnright");
+            isCrossRoad = true;
+            anim.SetTrigger("doTurnRight");
+            transform.Rotate(new Vector3(0, 90f, 0) * TurnSpeed * Time.deltaTime);
+            Invoke("DoMove", 1f);
+            GameObject[] crossroad = GameObject.FindGameObjectsWithTag("CrossRoad");
+            if(crossroad !=null)
+            {
+                for (int i = 0; i < crossroad.Length; ++i)
+                {
+                    Debug.Log("turn rightt crossroad");
+                    GameObject crossTransform = crossroad[i];
+                    crossTransform.transform.Rotate(new Vector3(0, 90f, 0) *TurnSpeed* Time.deltaTime);
+                }
+            }
+            
+                
+            
+        }
+        if (collision.gameObject.tag == "TurnLeftZone")
+        {
+            Debug.Log("turn left");
+            isCrossRoad = true;
+            anim.SetTrigger("doTurnLeftt");
+            transform.Rotate(new Vector3(0, -90f, 0) * TurnSpeed * Time.deltaTime);
+            Invoke("DoMove", 1f);
+            GameObject[] crossroad = GameObject.FindGameObjectsWithTag("CrossRoad");
+            if (crossroad != null)
+            {
+                for (int i = 0; i < crossroad.Length; ++i)
+                {
+                    Debug.Log("turn left crossroad");
+                    GameObject crossTransform = crossroad[i];
+                    crossTransform.transform.Rotate(new Vector3(0, -90f, 0) * TurnSpeed * Time.deltaTime);
+                }
+            }
+                
 
         }
     }

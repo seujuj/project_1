@@ -27,37 +27,39 @@ public class Background : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //  -------------- 배경이 모듈일 경우 다가오는 코드 
         //Vector3 curPos = _stageA.transform.position;
-        Vector3 nextPos = Vector3.back * speed * Time.deltaTime;
+        //Vector3 nextPos = Vector3.back * speed * Time.deltaTime;
         //if (_stageA != null || _stageB != null)//&& _stageC != null)
         //{
-        _stageA.transform.position += nextPos;
-        _stageB.transform.position += nextPos;
+        //_stageA.transform.position += nextPos;
+        //_stageB.transform.position += nextPos;
         //_stageC.transform.position += nextPos;
         //}
 
-        if (_stageA != null && _stageA.transform.position.z < 0 && isFar == false)
-        {
 
-            GameObject stageloop1 = Instantiate(_stageB, new Vector3(0, 0, viewDist), transform.rotation);
+        
+        //if (_stageA != null && _stageA.transform.position.z < 0 && isFar == false)
+        //{
+
+        //    GameObject stageloop1 = Instantiate(_stageB, new Vector3(0, 0, viewDist), transform.rotation);
 
 
-            if (_stageB != null && _stageB.transform.position.z < -viewDist + 10)
-                DestroyImmediate(_stageB);
-            //OnTriggerEnter ;
-            _stageB = stageloop1;
-            isFar = true;
-        }
+        //    if (_stageB != null && _stageB.transform.position.z < -viewDist + 10)
+        //        DestroyImmediate(_stageB);
+        //    //OnTriggerEnter ;
+        //    _stageB = stageloop1;
+        //    isFar = true;
+        //}
 
-        if (_stageA != null && _stageA.transform.position.z < -viewDist && isFar == true)
-        {
-            GameObject stageloop2 = Instantiate(_stageA, new Vector3(0, 0, viewDist), transform.rotation);
-            if (_stageA != null)
-                DestroyImmediate(_stageA);
-            _stageA = stageloop2;
-            isFar = false;
-        }
+        //if (_stageA != null && _stageA.transform.position.z < -viewDist && isFar == true)
+        //{
+        //    GameObject stageloop2 = Instantiate(_stageA, new Vector3(0, 0, viewDist), transform.rotation);
+        //    if (_stageA != null)
+        //        DestroyImmediate(_stageA);
+        //    _stageA = stageloop2;
+        //    isFar = false;
+        //}
 
         
 
@@ -73,7 +75,7 @@ public class Background : MonoBehaviour
         if(player.isDead == true)
         {
             Debug.Log("dead!");
-            speed = 0;
+            //speed = 0;
             //_deadUI.active = true;  //아직 유아이까지는.
         }
         
@@ -85,7 +87,7 @@ public class Background : MonoBehaviour
         _deadUI.SetActive(false);
         Player player = GameObject.Find("PC").GetComponent<Player>();
         player.isDead = false;
-        speed = 10;
+        //speed = 10;
 
     }
 
